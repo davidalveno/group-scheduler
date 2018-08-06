@@ -17,26 +17,32 @@ class SignupForm extends React.Component {
     });
   };
 
+  componentDidMount () {
+    window.componentHandler.upgradeDom();
+  }
+
+  componentDidUpdate () {
+    window.componentHandler.upgradeDom();
+  }
+
   render() {
     return (
-      <form onSubmit={e => this.props.handle_signup(e, this.state)}>
-        <h4>Sign Up</h4>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handle_change}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handle_change}
-        />
-        <input type="submit" />
-      </form>
+      <div>
+        <h4>Sign up for Scheduler!</h4>
+          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--floating-label">
+            <input className="mdl-textfield__input" type="text" id="username" name="username" value={this.state.username} onChange={this.handle_change} autoComplete="false" />
+            <label className="mdl-textfield__label" htmlFor="username">Username</label>
+          </div>
+        <div>
+          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input className="mdl-textfield__input" type="text" id="password" name="password" value={this.state.password} onChange={this.handle_change} autoComplete="false"/>
+            <label className="mdl-textfield__label" htmlFor="password">Password</label>
+          </div>
+        </div>
+        <button className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick={e=>this.props.handle_signup(e, this.state)}>
+          Sign Up
+        </button>
+      </div>
     );
   }
 }
