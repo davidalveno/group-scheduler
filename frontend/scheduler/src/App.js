@@ -25,35 +25,40 @@ class App extends Component {
 
   componentDidMount() {
     let self = this;
-    let newState = Object.assign({}, self.state);
     if (this.state.logged_in) {
-      fetch('http://localhost:8000/scheduler/current_user/', {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
-        }
-      })
-        .then(res => res.json())
-        .then(json => {
-          // If we don't get a username in the response, then the token is probably expired.
-          if (!json.username) {
-            localStorage.removeItem('token');
-            newState.logged_in = false;
-            self.setState(newState);
-          }
-          newState.user.username = json.username;
-          newState.user.first_name = json.first_name;
-          newState.user.last_name = json.last_name;
-          newState.user.email = json.email;
-          newState.displayed_content = 'main';
-          self.setState(newState);
-          console.log('componentDidmount');
-        });
+      this.get_user_info();
     }
     else {
-      let newState = Object.assign({}, this.state);
+      let newState = Object.assign({}, self.state);
       newState.displayed_content = 'login';
-      this.setState(newState);
+      self.setState(newState);
     }
+  }
+
+  get_user_info () {
+    let self = this;
+    let newState = Object.assign({}, self.state);
+    fetch('http://localhost:8000/scheduler/current_user/', {
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        // If we don't get a username in the response, then the token is probably expired.
+        if (!json.username) {
+          localStorage.removeItem('token');
+          newState.logged_in = false;
+          self.setState(newState);
+        }
+        newState.user.username = json.username;
+        newState.user.first_name = json.first_name;
+        newState.user.last_name = json.last_name;
+        newState.user.email = json.email;
+        newState.displayed_content = 'main';
+        self.setState(newState);
+        console.log('componentDidmount');
+      });
   }
 
   handle_login = (e, data) => {
@@ -70,6 +75,7 @@ class App extends Component {
       .then(res => res.json())
       .then(json => {
         localStorage.setItem('token', json.token);
+        this.get_user_info();
         newState.logged_in = true;
         newState.displayed_content = 'main';
         newState.user.username = json.user.username;
