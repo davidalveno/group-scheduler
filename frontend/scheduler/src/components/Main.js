@@ -9,36 +9,50 @@ class Main extends React.Component {
     }
   }
 
+  componentDidMount() {
+    window.componentHandler.upgradeDom();
+  }
+
+  componentDidUpdate() {
+    window.componentHandler.upgradeDom();
+  }
+
+
   render() {
     return (
-      // Always shows a header, even in smaller screens.
-      <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header className="mdl-layout__header">
-          <div className="mdl-layout__header-row">
-            {/* Title */}
-            <span className="mdl-layout-title">Title</span>
-            {/*  Add spacer, to align navigation to the right */}
-            <div className="mdl-layout-spacer"></div>
-            {/* Navigation. We hide it in small screens. */}
-            <nav className="mdl-navigation mdl-layout--large-screen-only">
+      // <!-- Always shows a header, even in smaller screens. -->
+      <div className="Main">
+        <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+          <header className="mdl-layout__header">
+            <div className="mdl-layout__header-row">
+              {/* <!-- Title --> */}
+              <span className="mdl-layout-title">Scheduler</span>
+              {/* <!-- Add spacer, to align navigation to the right --> */}
+              <div className="mdl-layout-spacer"></div>
+              {/* <!-- Navigation. We hide it in small screens. --> */}
+              <nav className="mdl-navigation mdl-layout--large-screen-only">
+                <a className="mdl-navigation__link">Profile</a>
+                <a className="mdl-navigation__link">Events</a>
+                <a className="mdl-navigation__link">Groups</a>
+                <a className="mdl-navigation__link" onClick={this.props.handle_logout}>Logout</a>
+              </nav>
+            </div>
+          </header>
+          <div className="mdl-layout__drawer">
+            <span className="mdl-layout-title">Username</span>
+            <nav className="mdl-navigation">
+              <a className="mdl-navigation__link">Profile</a>
+              <a className="mdl-navigation__link">Events</a>
+              <a className="mdl-navigation__link">Groups</a>
               <a className="mdl-navigation__link" onClick={this.props.handle_logout}>Logout</a>
             </nav>
           </div>
-        </header>
-        <div className="mdl-layout__drawer">
-          <span className="mdl-layout-title">Title</span>
-          <nav className="mdl-navigation">
-            <a className="mdl-navigation__link" href="">Link</a>
-            <a className="mdl-navigation__link" href="">Link</a>
-            <a className="mdl-navigation__link" href="">Link</a>
-            <a className="mdl-navigation__link" href="">Link</a>
-          </nav>
+          <main className="mdl-layout__content">
+            <div className="page-content">
+              Welcome, you are now logged in!
+            </div>
+          </main>
         </div>
-        <main className="mdl-layout__content">
-          <div className="page-content">
-            Welcome, you are logged in!
-          </div>
-        </main>
       </div>
     );
   }

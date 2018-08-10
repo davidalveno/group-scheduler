@@ -3,8 +3,8 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import Main from './components/Main';
 import Loader from './components/Stuff';
-import './css/material.css'
-import './material.js'
+import './css/material.css';
+import './material.js';
 
 class App extends Component {
   constructor(props) {
@@ -77,9 +77,8 @@ class App extends Component {
       });
   };
 
-  handle_signup = (e, data) => {
+  handle_signup = (data) => {
     console.log(data);
-    e.preventDefault();
     fetch('http://localhost:8000/scheduler/users/', {
       method: 'POST',
       headers: {

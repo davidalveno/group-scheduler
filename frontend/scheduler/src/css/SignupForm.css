@@ -1,0 +1,9 @@
+.signup-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mdl-textfield__error {
+    visibility: visible !important;
+}
