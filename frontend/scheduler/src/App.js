@@ -13,14 +13,20 @@ class App extends Component {
       displayed_content: 'loading',
       logged_in: localStorage.getItem('token') ? true : false,
       failed_login: false,
-      username: ''
+      user: {
+        username: '',
+        first_name: '',
+        last_name: '',
+        email: ''
+      }
     };
     console.log('on startup - logged in: ', this.state.logged_in)
   }
 
   componentDidMount() {
+    let self = this;
+    let newState = Object.assign({}, self.state);
     if (this.state.logged_in) {
-      console.log('mounted: logged in')
       fetch('http://localhost:8000/scheduler/current_user/', {
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`
@@ -28,10 +34,18 @@ class App extends Component {
       })
         .then(res => res.json())
         .then(json => {
-          let newState = Object.assign({}, this.state);
-          newState.username = json.username;
+          // If we don't get a username in the response, then the token is probably expired.
+          if (!json.username) {
+            localStorage.removeItem('token');
+            newState.logged_in = false;
+            self.setState(newState);
+          }
+          newState.user.username = json.username;
+          newState.user.first_name = json.first_name;
+          newState.user.last_name = json.last_name;
+          newState.user.email = json.email;
           newState.displayed_content = 'main';
-          this.setState(newState);
+          self.setState(newState);
           console.log('componentDidmount');
         });
     }
@@ -58,7 +72,7 @@ class App extends Component {
         localStorage.setItem('token', json.token);
         newState.logged_in = true;
         newState.displayed_content = 'main';
-        newState.username = json.user.username;
+        newState.user.username = json.user.username;
         this.setState(newState);
         console.log('handle_login');
       }).catch((error)=>{
@@ -66,7 +80,7 @@ class App extends Component {
         localStorage.removeItem('token');
         newState.logged_in = false;
         newState.displayed_content = 'login';
-        newState.username = '';
+        newState.user.username = '';
         // Show the error via toast notification
         var notification = document.querySelector('.mdl-js-snackbar');
         var data = {
@@ -92,7 +106,7 @@ class App extends Component {
         let newState = Object.assign({}, this.state);
         newState.logged_in = true;
         newState.displayed_content = 'main';
-        newState.username = json.username;
+        newState.user.username = json.username;
         this.setState(newState);
         console.log('handle_signup')
       });
@@ -103,7 +117,7 @@ class App extends Component {
     let newState = Object.assign({}, this.state);
     newState.logged_in = false;
     newState.displayed_content = 'login'
-    newState.username= '';
+    newState.user.username= '';
     this.setState(newState);
   };
 
@@ -135,7 +149,7 @@ class App extends Component {
         console.log('signup page');
         break;
       case 'main':
-        form = <Main handle_logout={this.handle_logout}/>
+        form = <Main handle_logout={this.handle_logout} user={this.state.user}/>
         console.log('main');
         break;
       default:
