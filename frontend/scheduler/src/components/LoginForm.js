@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../css/LoginForm.css';
 
 class LoginForm extends React.Component {
   state = {
@@ -27,16 +28,20 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='login-form'>
         <form>
           <h4>Log In</h4>
-          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--floating-label">
-            <input className="mdl-textfield__input" type="text" id="username" name="username" value={this.state.username} onChange={this.handle_change} />
-            <label className="mdl-textfield__label" htmlFor="username">Username</label>
+          <div>
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--floating-label">
+              <input className="mdl-textfield__input" type="text" id="username" name="username" value={this.state.username} onChange={this.handle_change} />
+              <label className="mdl-textfield__label" htmlFor="username">Username</label>
+            </div>
           </div>
-          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input className="mdl-textfield__input" type="text" id="password" name="password" value={this.state.password} onChange={this.handle_change} />
-            <label className="mdl-textfield__label" htmlFor="password">Password</label>
+          <div>
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input className="mdl-textfield__input" type="text" id="password" name="password" value={this.state.password} onChange={this.handle_change} />
+              <label className="mdl-textfield__label" htmlFor="password">Password</label>
+            </div>
           </div>
           <div>
             <button className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick={e => this.props.handle_login(e, this.state)}>
