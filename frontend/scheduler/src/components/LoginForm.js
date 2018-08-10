@@ -27,23 +27,27 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <form>
-        <h4>Log In</h4>
-        <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--floating-label">
-          <input className="mdl-textfield__input" type="text" id="username" name="username" value={this.state.username} onChange={this.handle_change} />
-          <label className="mdl-textfield__label" htmlFor="username">Username</label>
-        </div>
-        <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input className="mdl-textfield__input" type="text" id="password" name="password" value={this.state.password} onChange={this.handle_change} />
-          <label className="mdl-textfield__label" htmlFor="password">Password</label>
-        </div>
-        <button className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick={e => this.props.handle_login(e, this.state)}>
-          Login
-        </button>
-        <button className="mdl-button mdl-js-button mdl-js-ripple-effect" onClick={this.props.go_to_signup}>
-          Signup
-        </button>
-      </form>
+      <div>
+        <form>
+          <h4>Log In</h4>
+          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--floating-label">
+            <input className="mdl-textfield__input" type="text" id="username" name="username" value={this.state.username} onChange={this.handle_change} />
+            <label className="mdl-textfield__label" htmlFor="username">Username</label>
+          </div>
+          <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input className="mdl-textfield__input" type="text" id="password" name="password" value={this.state.password} onChange={this.handle_change} />
+            <label className="mdl-textfield__label" htmlFor="password">Password</label>
+          </div>
+          <div>
+            <button className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick={e => this.props.handle_login(e, this.state)}>
+              Login
+            </button>
+            <button className="mdl-button mdl-js-button mdl-js-ripple-effect" onClick={this.props.go_to_signup}>
+              Signup
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

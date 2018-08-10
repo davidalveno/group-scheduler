@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       displayed_content: 'loading',
       logged_in: localStorage.getItem('token') ? true : false,
+      failed_login: false,
       username: ''
     };
     console.log('on startup - logged in: ', this.state.logged_in)
@@ -42,6 +43,7 @@ class App extends Component {
   }
 
   handle_login = (e, data) => {
+    let newState = Object.assign({}, this.state);
     e.preventDefault();
     console.log(data);
     fetch('http://localhost:8000/token-auth/', {
@@ -54,12 +56,24 @@ class App extends Component {
       .then(res => res.json())
       .then(json => {
         localStorage.setItem('token', json.token);
-        let newState = Object.assign({}, this.state);
         newState.logged_in = true;
         newState.displayed_content = 'main';
         newState.username = json.user.username;
         this.setState(newState);
-        console.log('handle_login')
+        console.log('handle_login');
+      }).catch((error)=>{
+        console.log('Failed to login');
+        localStorage.removeItem('token');
+        newState.logged_in = false;
+        newState.displayed_content = 'login';
+        newState.username = '';
+        // Show the error via toast notification
+        var notification = document.querySelector('.mdl-js-snackbar');
+        var data = {
+          message: 'Wrong username and password combination',
+          timeout: 5000
+        }
+        notification.MaterialSnackbar.showSnackbar(data);
       });
   };
 
@@ -114,7 +128,7 @@ class App extends Component {
         form = <Loader/>;
         break;
       case 'login':
-        form = <LoginForm handle_login={this.handle_login} go_to_signup={this.go_to_signup} />;
+        form = <LoginForm handle_login={this.handle_login} go_to_signup={this.go_to_signup} failed_login={this.state.failed_login}/>;
         console.log('login page');
         break;
       case 'signup':
@@ -134,6 +148,11 @@ class App extends Component {
     return (
       <div className="App">
         {form}
+        {/* This toast is used throughout the entire app */}
+        <div id="toast" className="mdl-js-snackbar mdl-snackbar">
+          <div className="mdl-snackbar__text"></div>
+          <button className="mdl-snackbar__action" type="button"></button>
+        </div>
       </div>
     );
   }
