@@ -17,7 +17,8 @@ class App extends Component {
         username: '',
         first_name: '',
         last_name: '',
-        email: ''
+        email: '',
+        id: ''
       }
     };
     console.log('on startup - logged in: ', this.state.logged_in)
@@ -55,6 +56,7 @@ class App extends Component {
         newState.user.first_name = json.first_name;
         newState.user.last_name = json.last_name;
         newState.user.email = json.email;
+        newState.user.id = json.id;
         newState.displayed_content = 'main';
         self.setState(newState);
         console.log('componentDidmount');
